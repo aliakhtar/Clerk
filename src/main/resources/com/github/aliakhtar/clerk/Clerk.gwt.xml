@@ -2,7 +2,7 @@
 <module rename-to='Clerk'>
   <inherits name='com.google.gwt.user.User' />
 
-  <entry-point class='com.github.aliakhtar.client.Entry' />
+  <entry-point class='com.github.aliakhtar.clerk.client.Entry' />
 
   <source path='client' />
   <source path='shared' />

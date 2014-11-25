@@ -16,7 +16,7 @@
  *
  */
 
-package com.github.aliakhtar.client;
+package com.github.aliakhtar.clerk.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.Label;
