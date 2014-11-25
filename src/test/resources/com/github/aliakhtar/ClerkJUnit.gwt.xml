@@ -3,7 +3,4 @@
   <!-- Inherit our applications main module.                      -->
   <inherits name='com.github.aliakhtar.Clerk' />
 
-  <!-- Specify the path to any remote services.                   -->
-  <servlet path="/Clerk/greet" class="com.github.aliakhtar.server.GreetingServiceImpl" />
-
 </module>
