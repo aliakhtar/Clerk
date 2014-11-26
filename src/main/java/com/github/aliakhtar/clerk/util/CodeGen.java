@@ -25,7 +25,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.StringWriter;
 
-public class CodeGen
+class CodeGen
 {
     private static final CodeGen instance = new CodeGen();
 
@@ -46,14 +46,14 @@ public class CodeGen
         return instance;
     }
 
-    public String getTemplate(Class packageNeighbor,
+    public String getTemplate(Class<?> packageNeighbor,
                               String fileName)
     {
         return getTemplate(packageNeighbor, fileName, emptyContext);
     }
 
 
-    public String getTemplate(Class packageNeighbor, String fileName,
+    public String getTemplate(Class<?> packageNeighbor, String fileName,
                               VelocityContext context)
     {
         String packagePath = packageNeighbor.getPackage().getName()
