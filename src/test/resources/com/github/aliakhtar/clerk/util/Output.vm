@@ -1,0 +1,9 @@
+package com.github.aliakhtar.clerk;
+
+public class Output
+{
+    public String get()
+    {
+        return "FOO";
+    }
+}

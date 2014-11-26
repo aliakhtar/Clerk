@@ -18,6 +18,9 @@
 
 package com.github.aliakhtar.clerk.processor;
 
+import com.github.aliakhtar.clerk.Clerk;
+import com.github.aliakhtar.clerk.util.CodeGen;
+
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.TypeElement;
@@ -32,6 +35,23 @@ public class MainProcessor extends BaseProcessor
                            RoundEnvironment roundEnv)
     {
         log("OK " + roundEnv.toString());
+
+        if (roundEnv.processingOver())
+            return false;
+
+        String code = CodeGen.get().getTemplate(CodeGen.class, "Output.vm");
+
+        log("Writing");
+        try
+        {
+            CodeGen.get().write("Output", code, Clerk.class, processingEnv);
+            log("Written");
+            log( Class.forName("com.github.aliakhtar.clerk.Output").toString() );
+        }
+        catch (Exception e)
+        {
+            error(e.toString() );
+        }
         return false;
     }
 }

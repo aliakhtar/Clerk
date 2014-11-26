@@ -23,13 +23,18 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.tools.JavaFileObject;
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 
-class CodeGen
+public class CodeGen
 {
     private static final CodeGen instance = new CodeGen();
 
-    private final VelocityContext emptyContext
+    public static final VelocityContext EMPTY_CONTEXT
             = new VelocityContext();
 
     private CodeGen()
@@ -49,7 +54,7 @@ class CodeGen
     public String getTemplate(Class<?> packageNeighbor,
                               String fileName)
     {
-        return getTemplate(packageNeighbor, fileName, emptyContext);
+        return getTemplate(packageNeighbor, fileName, EMPTY_CONTEXT);
     }
 
 
@@ -62,6 +67,29 @@ class CodeGen
         Velocity.mergeTemplate(packagePath + "/" + fileName, "UTF-8", context, sw);
 
         return sw.getBuffer().toString();
+    }
+
+
+    public void write(String className, String code,
+                      Class<?> packageNeighbor, ProcessingEnvironment env)
+            throws IOException
+    {
+        String cannonicalName =
+                packageNeighbor.getPackage().getName() + "." + className;
+
+        System.out.println("Cannonical: " + cannonicalName);
+        JavaFileObject file =
+                env.getFiler().createSourceFile(cannonicalName);
+
+        Writer writer = file.openWriter();
+
+        System.out.println(file.getName());
+
+        writer.write( code );
+        writer.close();
+
+        File f = new File( file.getName() );
+        System.out.println("Exists: " + f.exists());
     }
 
 }
