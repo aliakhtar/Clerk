@@ -20,6 +20,7 @@ package com.github.aliakhtar.clerk.processor;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.tools.Diagnostic;
 
@@ -27,8 +28,10 @@ abstract class BaseProcessor extends AbstractProcessor
 {
     private Messager messager;
 
-    public BaseProcessor()
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv)
     {
+        super.init(processingEnv);
         messager = processingEnv.getMessager();
     }
 

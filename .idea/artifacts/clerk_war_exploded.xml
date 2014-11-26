@@ -7,6 +7,7 @@
           <element id="module-output" name="clerk" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
           <element id="library" level="project" name="Maven: org.apache.velocity:velocity:1.7" />
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.4" />

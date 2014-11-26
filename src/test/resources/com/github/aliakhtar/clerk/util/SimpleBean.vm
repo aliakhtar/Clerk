@@ -1,7 +1,10 @@
 package com.github.aliakhtar.clerk;
 
 import javax.validation.constraints.NotNull;
+import com.github.aliakhtar.clerk.shared.ValidateMe;
 
+
+@ValidateMe
 public class TestBean
 {
     private String optional;

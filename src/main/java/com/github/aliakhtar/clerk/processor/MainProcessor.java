@@ -31,6 +31,7 @@ public class MainProcessor extends BaseProcessor
     public boolean process(Set<? extends TypeElement> annotations,
                            RoundEnvironment roundEnv)
     {
+        log("OK " + roundEnv.toString());
         return false;
     }
 }
