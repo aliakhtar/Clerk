@@ -46,14 +46,15 @@ public class CodeGen
         return instance;
     }
 
-    public String read(Class packageNeighbor, String fileName)
+    public String getTemplate(Class packageNeighbor,
+                              String fileName)
     {
-        return read(packageNeighbor, fileName, emptyContext);
+        return getTemplate(packageNeighbor, fileName, emptyContext);
     }
 
 
-    public String read(Class packageNeighbor, String fileName,
-                       VelocityContext context)
+    public String getTemplate(Class packageNeighbor, String fileName,
+                              VelocityContext context)
     {
         String packagePath = packageNeighbor.getPackage().getName()
                                             .replace(".", "/");

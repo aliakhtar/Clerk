@@ -13,7 +13,7 @@ public class CodeGenTest
             throws Exception
     {
         String template =
-                CodeGen.get().read(this.getClass(), "SimpleBean.vm");
+                CodeGen.get().getTemplate(this.getClass(), "SimpleBean.vm");
 
         assertNotNull(template, template);
         System.out.println(template);
