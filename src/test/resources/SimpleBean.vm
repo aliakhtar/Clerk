@@ -1,0 +1,11 @@
+package com.github.aliakhtar.clerk;
+
+import javax.validation.constraints.NotNull;
+
+public class TestBean
+{
+    private String optional;
+
+    @NotNull
+    private String required;
+}
