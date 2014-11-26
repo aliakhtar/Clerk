@@ -1,4 +1,4 @@
-package com.github.aliakhtar.clerk;
+package com.github.aliakhtar.clerk.util;
 
 import com.github.aliakhtar.annoTest.annotation.PrintMe;
 import org.apache.velocity.Template;
@@ -9,10 +9,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.InputStream;
 import java.io.StringWriter;
-
-import static org.junit.Assert.assertNotNull;
 
 @PrintMe
 public class VelocityTest
@@ -33,16 +30,13 @@ public class VelocityTest
     public void simpleBean()
             throws Exception
     {
-        InputStream is = this.getClass().getResourceAsStream("SimpleBean.vm");
-
-        assertNotNull(is);
-        is.close();
-
         Template t = v.getTemplate("SimpleBean.vm");
         StringWriter sw = new StringWriter();
         t.merge(new VelocityContext(), sw);
 
         String result = sw.getBuffer().toString();
         System.out.println( result );
+
+        System.out.println( VelocityTest.class.getPackage().getName() );
     }
 }
