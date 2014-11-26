@@ -29,6 +29,9 @@ public class CodeGen
 {
     private static final CodeGen instance = new CodeGen();
 
+    private final VelocityContext emptyContext
+            = new VelocityContext();
+
     private CodeGen()
     {
         Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
@@ -42,6 +45,12 @@ public class CodeGen
     {
         return instance;
     }
+
+    public String read(Class packageNeighbor, String fileName)
+    {
+        return read(packageNeighbor, fileName, emptyContext);
+    }
+
 
     public String read(Class packageNeighbor, String fileName,
                        VelocityContext context)
