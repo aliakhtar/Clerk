@@ -83,8 +83,7 @@ public class CodeGen
 
     public CodeGenResult write(String packageName,
                                String className,
-                               Template tpl,
-                               VelocityContext context,
+                               String code,
                                ProcessingEnvironment env)
             throws IOException
     {
@@ -99,7 +98,6 @@ public class CodeGen
 
         System.out.println(file.getName());
 
-        String code = asString(tpl, context);
         writer.write( code );
         writer.close();
 
