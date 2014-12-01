@@ -11,7 +11,7 @@
  * permissions and limitations under the License.
  */
 
-package com.github.aliakhtar.clerk.util;
+package com.github.aliakhtar.clerk.codegen;
 
 import javax.tools.JavaFileObject;
 import java.io.File;

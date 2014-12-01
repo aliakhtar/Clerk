@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.github.aliakhtar.clerk.util;
+package com.github.aliakhtar.clerk.codegen;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

@@ -16,7 +16,7 @@
  *
  */
 
-package com.github.aliakhtar.clerk.util;
+package com.github.aliakhtar.clerk.codegen;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -81,12 +81,15 @@ public class CodeGen
     }
 
 
-    public void write(String className, String code,
-                      Class<?> packageNeighbor, ProcessingEnvironment env)
+    public CodeGenResult write(String packageName,
+                               String className,
+                               Template tpl,
+                               VelocityContext context,
+                               ProcessingEnvironment env)
             throws IOException
     {
         String cannonicalName =
-                packageNeighbor.getPackage().getName() + "." + className;
+                packageName + "." + className;
 
         System.out.println("Cannonical: " + cannonicalName);
         JavaFileObject file =
@@ -96,11 +99,14 @@ public class CodeGen
 
         System.out.println(file.getName());
 
+        String code = asString(tpl, context);
         writer.write( code );
         writer.close();
 
         File f = new File( file.getName() );
         System.out.println("Exists: " + f.exists());
+
+        return new CodeGenResult(className, cannonicalName, file, code);
     }
 
 }
