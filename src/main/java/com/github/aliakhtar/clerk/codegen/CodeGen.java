@@ -98,5 +98,4 @@ public class CodeGen
 
         return new CodeGenResult(className, cannonicalName, file, code);
     }
-
 }
