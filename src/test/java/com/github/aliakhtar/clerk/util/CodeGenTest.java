@@ -1,7 +1,6 @@
 package com.github.aliakhtar.clerk.util;
 
 import com.github.aliakhtar.annoTest.util.AnnoTest;
-import com.github.aliakhtar.annoTest.util.SourceFile;
 import com.github.aliakhtar.clerk.processor.MainProcessor;
 import com.github.aliakhtar.clerk.shared.ValidateMe;
 import org.junit.Test;
@@ -27,18 +26,5 @@ public class CodeGenTest extends AnnoTest
 
         assertNotNull(template, template);
         assertTrue(template, template.contains("@NotNull") );
-    }
-
-    @Test
-    public void testCompile() throws Exception
-    {
-        String template =
-                CodeGen.get().getTemplate(this.getClass(), "SimpleBean.vm");
-
-        SourceFile file
-                = new SourceFile("TestBean.java", template);
-
-        assertTrue( compiler.compile(file));
-        //Mockito.verify(messager).printMessage(Diagnostic.Kind.NOTE, "OK");
     }
 }

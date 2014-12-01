@@ -18,8 +18,9 @@
 
 package com.github.aliakhtar.clerk.util;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
@@ -37,12 +38,13 @@ public class CodeGen
     public static final VelocityContext EMPTY_CONTEXT
             = new VelocityContext();
 
+    private final VelocityEngine v = new VelocityEngine();
     private CodeGen()
     {
-        Velocity.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-        Velocity.setProperty("classpath.resource.loader.class",
+        v.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+        v.setProperty("classpath.resource.loader.class",
                              ClasspathResourceLoader.class.getName());
-        Velocity.init();
+        v.init();
     }
 
 
@@ -51,22 +53,31 @@ public class CodeGen
         return instance;
     }
 
-    public String getTemplate(Class<?> packageNeighbor,
-                              String fileName)
-    {
-        return getTemplate(packageNeighbor, fileName, EMPTY_CONTEXT);
-    }
 
-
-    public String getTemplate(Class<?> packageNeighbor, String fileName,
-                              VelocityContext context)
+    public Template getTemplate(Class<?> packageNeighbor, String fileName)
     {
         String packagePath = packageNeighbor.getPackage().getName()
                                             .replace(".", "/");
-        StringWriter sw = new StringWriter();
-        Velocity.mergeTemplate(packagePath + "/" + fileName, "UTF-8", context, sw);
+        return v.getTemplate(packagePath + "/" + fileName);
+    }
 
+    public String asString(Template tpl, VelocityContext context)
+    {
+        StringWriter sw = new StringWriter();
+        tpl.merge(context, sw);
         return sw.getBuffer().toString();
+    }
+
+    public String asString(Template tpl)
+    {
+        return asString(tpl, EMPTY_CONTEXT);
+    }
+
+    public String getParsedTemplate(Class<?> packageNeighbor, String fileName,
+                                    VelocityContext context)
+    {
+        Template tpl = getTemplate(packageNeighbor, fileName);
+        return asString(tpl, context);
     }
 
 
