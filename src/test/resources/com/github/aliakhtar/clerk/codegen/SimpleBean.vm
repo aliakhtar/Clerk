@@ -1,0 +1,5 @@
+package com.github.aliakhtar.clerk.codegen;
+public class SimpleBean
+{
+
+}

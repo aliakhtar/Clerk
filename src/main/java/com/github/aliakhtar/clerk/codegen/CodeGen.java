@@ -26,7 +26,6 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.JavaFileObject;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -90,19 +89,12 @@ public class CodeGen
         String cannonicalName =
                 packageName + "." + className;
 
-        System.out.println("Cannonical: " + cannonicalName);
         JavaFileObject file =
                 env.getFiler().createSourceFile(cannonicalName);
 
         Writer writer = file.openWriter();
-
-        System.out.println(file.getName());
-
         writer.write( code );
         writer.close();
-
-        File f = new File( file.getName() );
-        System.out.println("Exists: " + f.exists());
 
         return new CodeGenResult(className, cannonicalName, file, code);
     }

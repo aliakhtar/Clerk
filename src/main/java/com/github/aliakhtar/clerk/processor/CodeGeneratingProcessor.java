@@ -20,7 +20,7 @@ import org.apache.velocity.VelocityContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public abstract class CodeGeneratingProcessor extends BaseProcessor
 {
@@ -32,7 +32,7 @@ public abstract class CodeGeneratingProcessor extends BaseProcessor
 
     protected final Template tpl;
 
-    protected final Collection<CodeGenResult> generatedFiles
+    protected final List<CodeGenResult> generatedFiles
             = new ArrayList<>();
 
     protected final static CodeGen cg = CodeGen.get();
@@ -70,7 +70,7 @@ public abstract class CodeGeneratingProcessor extends BaseProcessor
         return result;
     }
 
-    public Collection<CodeGenResult> getGeneratedFiles()
+    public List<CodeGenResult> getGeneratedFiles()
     {
         return generatedFiles;
     }

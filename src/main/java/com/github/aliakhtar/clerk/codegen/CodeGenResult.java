@@ -67,4 +67,16 @@ public class CodeGenResult
     {
         return content;
     }
+
+    @Override
+    public String toString()
+    {
+        return "CodeGenResult{" +
+               "simpleName='" + simpleName + '\'' +
+               ", cannonicalName='" + cannonicalName + '\'' +
+               ", path='" + path + '\'' +
+               ", content='" + content + '\'' +
+               ", jfo=" + jfo +
+               '}';
+    }
 }
