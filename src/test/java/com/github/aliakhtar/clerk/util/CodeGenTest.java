@@ -1,30 +1,28 @@
 package com.github.aliakhtar.clerk.util;
 
-import com.github.aliakhtar.annoTest.util.AnnoTest;
-import com.github.aliakhtar.clerk.processor.MainProcessor;
-import com.github.aliakhtar.clerk.shared.ValidateMe;
+import org.apache.velocity.Template;
 import org.junit.Test;
 
-import javax.validation.constraints.NotNull;
-
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-public class CodeGenTest extends AnnoTest
+public class CodeGenTest
 {
+    private final static CodeGen cg = CodeGen.get();
     public CodeGenTest() throws Exception
     {
-        super(new MainProcessor(), NotNull.class, ValidateMe.class);
     }
 
     @Test
     public void testGetTemplate()
             throws Exception
     {
-        String template =
-                CodeGen.get().getTemplate(this.getClass(), "SimpleBean.vm");
+        Template tpl = cg.getTemplate(this.getClass(), "VariablePrintTest.vm");
+        String parsed =
+                cg.asString(tpl);
 
-        assertNotNull(template, template);
-        assertTrue(template, template.contains("@NotNull") );
+
+        assertNotNull(parsed, parsed);
+        assertEquals(parsed, "$fooBar", parsed);
     }
 }
