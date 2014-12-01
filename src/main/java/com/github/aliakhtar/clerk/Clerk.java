@@ -16,6 +16,19 @@
 
 package com.github.aliakhtar.clerk;
 
+import com.github.aliakhtar.clerk.validate.ValidatorProvider;
+
+import java.util.ServiceLoader;
+
 public class Clerk
 {
+    private final static  ServiceLoader<ValidatorProvider> loader =
+                        ServiceLoader.load(ValidatorProvider.class);
+    private final static ValidatorProvider validatorProvider
+             = loader.iterator().next();
+
+    public static ValidatorProvider getValidatorProvider()
+    {
+        return validatorProvider;
+    }
 }
