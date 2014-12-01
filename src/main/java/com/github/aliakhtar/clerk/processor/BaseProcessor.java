@@ -43,13 +43,18 @@ abstract class BaseProcessor extends AbstractProcessor
     }
 
 
-    void log(String msg)
+    protected void log(String msg)
     {
         messager.printMessage(Diagnostic.Kind.NOTE, msg);
     }
 
-    void error(String msg)
+    protected void error(String msg)
     {
         messager.printMessage(Diagnostic.Kind.ERROR, msg);
+    }
+
+    protected void error(Throwable e)
+    {
+        messager.printMessage(Diagnostic.Kind.ERROR, e.toString() );
     }
 }

@@ -18,10 +18,9 @@ import com.github.aliakhtar.clerk.codegen.CodeGenResult;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 public abstract class CodeGeneratingProcessor extends BaseProcessor
 {
@@ -34,9 +33,19 @@ public abstract class CodeGeneratingProcessor extends BaseProcessor
     protected final Template tpl;
 
     protected final Collection<CodeGenResult> generatedFiles
-            = new HashSet<>();
+            = new ArrayList<>();
 
     protected final static CodeGen cg = CodeGen.get();
+
+    public CodeGeneratingProcessor(String tplName,
+                                   Class<?> tplPackageNeighbor,
+                                   String genClassName,
+                                   Class<?> genPackageNeighbor)
+    {
+        this(tplName, tplPackageNeighbor,
+             genClassName,
+             genPackageNeighbor.getPackage().getName() );
+    }
 
     public CodeGeneratingProcessor(String tplName,
                                    Class<?> tplPackageNeighbor,
@@ -50,12 +59,19 @@ public abstract class CodeGeneratingProcessor extends BaseProcessor
         tpl = cg.getTemplate(tplPackageNeighbor, tplName);
     }
 
-    protected CodeGenResult generate(VelocityContext context,
-                                     ProcessingEnvironment env)
+    protected CodeGenResult generate(VelocityContext context)
             throws IOException
     {
         String code = cg.asString(tpl, context);
-        return cg.write(genPackageName, genClassName, code, env );
+        CodeGenResult result =
+                cg.write(genPackageName, genClassName, code, processingEnv );
+        generatedFiles.add(result);
+
+        return result;
     }
 
+    public Collection<CodeGenResult> getGeneratedFiles()
+    {
+        return generatedFiles;
+    }
 }

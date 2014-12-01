@@ -1,0 +1,12 @@
+package com.github.aliakhtar.clerk.validate;
+
+public class ValidatorFactory implements ValidatorProvider
+{
+    private final String name = "$name";
+
+    @Override
+    public String getName()
+    {
+    return name;
+    }
+}
