@@ -23,10 +23,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class CodeGenTest
+public class VelocityTest
 {
-    private final static CodeGen cg = CodeGen.get();
-    public CodeGenTest() throws Exception
+    public VelocityTest() throws Exception
     {
     }
 
@@ -34,8 +33,8 @@ public class CodeGenTest
     public void testGetTemplate()
             throws Exception
     {
-        Template tpl  = cg.getTemplate(this.getClass(), "VariablePrintTest.vm");
-        String parsed = cg.asString(tpl);
+        Template tpl  = CodeGen.getTemplate(this.getClass(), "VariablePrintTest.vm");
+        String parsed = CodeGen.asString(tpl);
 
         assertNotNull(parsed, parsed);
         assertEquals(parsed, "$fooBar", parsed);
@@ -43,7 +42,7 @@ public class CodeGenTest
         VelocityContext context = new VelocityContext();
         context.put("fooBar","test");
 
-        parsed = cg.asString(tpl, context);
+        parsed = CodeGen.asString(tpl, context);
         assertNotNull(parsed, parsed);
         assertEquals(parsed, "test", parsed);
     }

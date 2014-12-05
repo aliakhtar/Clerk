@@ -32,12 +32,10 @@ import java.io.Writer;
 
 public class CodeGen
 {
-    private static final CodeGen instance = new CodeGen();
-
     public static final VelocityContext EMPTY_CONTEXT
             = new VelocityContext();
 
-    private final VelocityEngine v = new VelocityEngine();
+    private static final VelocityEngine v = new VelocityEngine();
     private CodeGen()
     {
         v.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
@@ -47,32 +45,26 @@ public class CodeGen
     }
 
 
-    public static CodeGen get()
-    {
-        return instance;
-    }
-
-
-    public Template getTemplate(Class<?> packageNeighbor, String fileName)
+    public static Template getTemplate(Class<?> packageNeighbor, String fileName)
     {
         String packagePath = packageNeighbor.getPackage().getName()
                                             .replace(".", "/");
         return v.getTemplate(packagePath + "/" + fileName);
     }
 
-    public String asString(Template tpl, VelocityContext context)
+    public static String asString(Template tpl, VelocityContext context)
     {
         StringWriter sw = new StringWriter();
         tpl.merge(context, sw);
         return sw.getBuffer().toString();
     }
 
-    public String asString(Template tpl)
+    public static String asString(Template tpl)
     {
         return asString(tpl, EMPTY_CONTEXT);
     }
 
-    public String getParsedTemplate(Class<?> packageNeighbor, String fileName,
+    public static String getParsedTemplate(Class<?> packageNeighbor, String fileName,
                                     VelocityContext context)
     {
         Template tpl = getTemplate(packageNeighbor, fileName);
