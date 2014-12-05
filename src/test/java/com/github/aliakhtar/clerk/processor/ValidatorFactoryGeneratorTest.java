@@ -33,8 +33,8 @@ public class ValidatorFactoryGeneratorTest extends AnnoTest<ValidatorFactoryGene
     @Test
     public void testProcess() throws Exception
     {
-        Template tpl = CodeGen.get().getTemplate(CodeGen.class, "SimpleBean.vm");
-        String code = CodeGen.get().asString(tpl);
+        Template tpl = CodeGen.getTemplate(CodeGen.class, "SimpleBean.vm");
+        String code = CodeGen.asString(tpl);
 
         SourceFile sf = new SourceFile("SimpleBean.java", code);
 
