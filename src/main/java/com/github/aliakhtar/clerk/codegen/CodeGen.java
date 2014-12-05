@@ -29,6 +29,8 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CodeGen
 {
@@ -36,12 +38,91 @@ public class CodeGen
             = new VelocityContext();
 
     private static final VelocityEngine v = new VelocityEngine();
-    private CodeGen()
+
+    protected final String genClassName;
+    protected final String genPackageName;
+    protected final Template tpl;
+
+    protected final List<CodeGenResult> generatedFiles
+            = new ArrayList<>();
+
+    static
     {
         v.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         v.setProperty("classpath.resource.loader.class",
-                             ClasspathResourceLoader.class.getName());
+                      ClasspathResourceLoader.class.getName());
         v.init();
+    }
+
+
+
+    public CodeGen(String tplName,
+                   Class<?> tplPackageNeighbor,
+                   String genClassName,
+                   String genPackageName)
+    {
+        this.genClassName = genClassName;
+        this.genPackageName = genPackageName;
+        tpl = getTemplate(tplPackageNeighbor, tplName);
+    }
+
+    public static class Builder
+    {
+        private String tplName;
+        private Class<?> tplPackageNeighbor;
+
+        private String genClassName;
+        private String genPackageName;
+
+
+        public Builder tplName(String tplName)
+        {
+            this.tplName = tplName;
+            return this;
+        }
+
+        public Builder tplNeighbor(Class<?> tplPackageNeighbor)
+        {
+            this.tplPackageNeighbor = tplPackageNeighbor;
+            return this;
+        }
+
+        public Builder className(String genClassName)
+        {
+            this.genClassName = genClassName;
+            return this;
+        }
+
+
+        public Builder packageNeighbor(Class<?> genPackageNeighbor)
+        {
+            return genPackageName( genPackageNeighbor.getPackage().getName() );
+        }
+
+        public Builder genPackageName(String genPackageName)
+        {
+            this.genPackageName = genPackageName;
+            return this;
+        }
+
+        public CodeGen build()
+        {
+            Object[] values = {tplName, tplPackageNeighbor, genClassName, genPackageName};
+            int i = 0;
+            for (Object value : values)
+            {
+                if (value == null)
+                    throw new IllegalStateException("Field # " + i + " not set");
+                i++;
+            }
+
+            return new CodeGen(tplName, tplPackageNeighbor, genClassName, genPackageName);
+        }
+    }
+
+    public static Builder builder()
+    {
+        return new Builder();
     }
 
 
@@ -72,7 +153,7 @@ public class CodeGen
     }
 
 
-    public CodeGenResult write(String packageName,
+    public static CodeGenResult write(String packageName,
                                String className,
                                String code,
                                ProcessingEnvironment env)
@@ -89,5 +170,23 @@ public class CodeGen
         writer.close();
 
         return new CodeGenResult(className, cannonicalName, file, code);
+    }
+
+    public CodeGenResult generate(VelocityContext context,
+                                  ProcessingEnvironment processingEnv)
+            throws IOException
+    {
+        String code = asString(tpl, context);
+        CodeGenResult result =
+                write(genPackageName, genClassName, code, processingEnv);
+        generatedFiles.add(result);
+
+        return result;
+    }
+
+
+    public List<CodeGenResult> getGeneratedFiles()
+    {
+        return generatedFiles;
     }
 }

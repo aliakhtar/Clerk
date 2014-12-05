@@ -13,6 +13,7 @@
 
 package com.github.aliakhtar.clerk.processor;
 
+import com.github.aliakhtar.clerk.codegen.CodeGen;
 import com.github.aliakhtar.clerk.validate.ValidatorProvider;
 import org.apache.velocity.VelocityContext;
 
@@ -30,8 +31,14 @@ public class ValidatorFactoryGenerator extends CodeGeneratingProcessor
 
     public ValidatorFactoryGenerator()
     {
-        super("ValidatorFactory.vm", ValidatorProvider.class,
-                "ValidatorFactory", ValidatorProvider.class);
+
+        super(CodeGen.builder()
+                     .className("ValidatorFactory")
+                     .packageNeighbor(ValidatorProvider.class)
+                     .tplName("ValidatorFactory.vm")
+                     .tplNeighbor(ValidatorProvider.class)
+                     .build()
+             );
     }
 
     @Override
@@ -51,7 +58,7 @@ public class ValidatorFactoryGenerator extends CodeGeneratingProcessor
 
         try
         {
-            generate(context);
+            generator.generate(context, processingEnv);
         }
         catch (IOException e)
         {

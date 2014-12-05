@@ -15,63 +15,25 @@ package com.github.aliakhtar.clerk.processor;
 
 import com.github.aliakhtar.clerk.codegen.CodeGen;
 import com.github.aliakhtar.clerk.codegen.CodeGenResult;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CodeGeneratingProcessor extends BaseProcessor
 {
-    protected final String tplName;
-    protected final Class<?> tplPackageNeighbor;
+    protected final CodeGen generator;
 
-    protected final String genClassName;
-    protected final String genPackageName;
-
-    protected final Template tpl;
-
-    protected final List<CodeGenResult> generatedFiles
-            = new ArrayList<>();
-
-    protected final static CodeGen cg = CodeGen.get();
-
-    public CodeGeneratingProcessor(String tplName,
-                                   Class<?> tplPackageNeighbor,
-                                   String genClassName,
-                                   Class<?> genPackageNeighbor)
+    protected CodeGeneratingProcessor(CodeGen generator)
     {
-        this(tplName, tplPackageNeighbor,
-             genClassName,
-             genPackageNeighbor.getPackage().getName() );
-    }
-
-    public CodeGeneratingProcessor(String tplName,
-                                   Class<?> tplPackageNeighbor,
-                                   String genClassName,
-                                   String genPackageName)
-    {
-        this.tplName = tplName;
-        this.tplPackageNeighbor = tplPackageNeighbor;
-        this.genClassName = genClassName;
-        this.genPackageName = genPackageName;
-        tpl = cg.getTemplate(tplPackageNeighbor, tplName);
-    }
-
-    protected CodeGenResult generate(VelocityContext context)
-            throws IOException
-    {
-        String code = cg.asString(tpl, context);
-        CodeGenResult result =
-                cg.write(genPackageName, genClassName, code, processingEnv );
-        generatedFiles.add(result);
-
-        return result;
+        this.generator = generator;
     }
 
     public List<CodeGenResult> getGeneratedFiles()
     {
-        return generatedFiles;
+        return generator.getGeneratedFiles();
+    }
+
+    public CodeGen getGenerator()
+    {
+        return generator;
     }
 }
